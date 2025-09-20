@@ -36,16 +36,18 @@ function! OpenFileLineInRightWindow()
     let l:filename = substitute(l:filename, '[.,;!?]*$', '', '')
 
     if filereadable(l:filename) || isdirectory(l:filename)
-        " Save current window number
+        let l:current_winid = win_getid()
         let l:current_winnr = winnr()
 
-        " Check if we're in the rightmost window
-        if winnr() == winnr('$')
-            " We're at the right edge, need to create new window
-            execute "vertical rightbelow split"
+        " Find if there's a window directly to the right
+        let l:right_winid = FindRightWindow(l:current_winnr)
+
+        if l:right_winid != -1
+            " Reuse existing right window
+            call win_gotoid(l:right_winid)
         else
-            " Move to the right window
-            wincmd l
+            " Create new window on the right
+            execute "vertical rightbelow split"
         endif
 
         " Open the file
@@ -59,6 +61,30 @@ function! OpenFileLineInRightWindow()
     else
         echo "File not found: " . l:filename
     endif
+endfunction
+
+function! FindRightWindow(current_winnr)
+    let l:current_pos = win_screenpos(a:current_winnr)
+    let l:current_row = l:current_pos[0]
+    let l:current_col = l:current_pos[1]
+    let l:current_width = winwidth(a:current_winnr)
+
+    " Check all windows to find one that's directly to the right
+    for l:winnr in range(1, winnr('$'))
+        if l:winnr != a:current_winnr
+            let l:win_pos = win_screenpos(l:winnr)
+            let l:win_row = l:win_pos[0]
+            let l:win_col = l:win_pos[1]
+
+            " Check if window is on the same row and starts right after current window ends
+            if l:win_row == l:current_row && l:win_col >= l:current_col + l:current_width
+                " Found a window to the right - return the first one we find
+                return win_getid(l:winnr)
+            endif
+        endif
+    endfor
+
+    return -1 " No window found to the right
 endfunction
 
 function! HighlightTargetLine(line_num)
