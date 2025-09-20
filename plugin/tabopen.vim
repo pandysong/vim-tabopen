@@ -8,7 +8,7 @@ if exists('g:loaded_tabopen')
 endif
 let g:loaded_tabopen = 1
 
-nnoremap <Tab> :call OpenFileLineInRightWindow()<CR>
+nnoremap gF :call OpenFileLineInRightWindow()<CR>
 
 function! OpenFileLineInRightWindow()
     let l:file_line = expand("<cWORD>")
