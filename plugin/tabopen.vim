@@ -35,6 +35,14 @@ function! OpenFileLineInRightWindow()
 
     let l:filename = substitute(l:filename, '[.,;!?]*$', '', '')
 
+    " Assuming l:filename is a relative path to the current file
+    " Get the directory of the current file's full path
+    let l:current_dir = expand('%:p:h')
+    " Construct the absolute path
+    let l:abs_filename = simplify(l:current_dir . '/' . l:filename)
+    " Make it relative to the current working directory
+    let l:filename = fnamemodify(l:abs_filename, ':.')
+
     if filereadable(l:filename) || isdirectory(l:filename)
         let l:current_winid = win_getid()
         let l:current_winnr = winnr()
