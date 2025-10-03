@@ -2,6 +2,9 @@
 
 This is a lightweight bookmark like plugin.
 
+![demo]([link](https://github.com/user-attachments/assets/3646dc20-0d15-4d0e-9720-df59e87898c5))
+
+
 # get the file:ln for the current cursor
 
 Add following to .vimrc:
