@@ -2,7 +2,8 @@
 
 This is a lightweight bookmark like plugin.
 
-![demo](https://github.com/user-attachments/assets/3646dc20-0d15-4d0e-9720-df59e87898c5)
+<video src="https://github.com/user-attachments/assets/3646dc20-0d15-4d0e-9720-df59e87898c5" controls="controls" style="max-width: 730px;">
+</video>
 
 
 # get the file:ln for the current cursor
